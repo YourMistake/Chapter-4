@@ -1,4 +1,5 @@
 ; Exercise 2: Copy a String in Reverse Order
+; Erik Vanlandingham
 
 .386
 .model flat,stdcall
@@ -16,17 +17,17 @@ main PROC
 ; Point EDI to the beginning of the target string:
 ; We do not copy the null terminator byte.
 
-	mov  esi,SIZEOF source	; index register set to the end?
-	mov  ecx,SIZEOF source	; loop counter
+	mov  esi,0					; index register set to the end?
+   ;mov, esi OFFSET source		; or is this what we need to do?
+	mov  ecx,SIZEOF source		; loop counter, could I not just use ecx as my index for the string?
 L1:
-	mov  al,source[esi]		; get a character from source
-	mov  target[esi],al		; store it in the target
-	dec  esi				; move to the previous character in the array
-	loop L1					; repeat for entire string
+	mov  al,source[ecx]			; get a character from source
+	mov  target[esi],al			; store it in the target
+	inc  esi					; move to the previous character in the array
+	loop L1						; repeat for entire string
 
-; Your code goes here	
-
-	mov	BYTE PTR [edi],0			; add a null byte to the target
+	mov  al,source[ecx]
+	mov	target[esi],al			; add the last character
 
 	Invoke ExitProcess,0
 main ENDP
