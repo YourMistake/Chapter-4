@@ -1,5 +1,7 @@
 ; Exercise 1: Summing the gaps between array elements
 ; Erik Vanlandingham
+; CIS-361
+; Last Modified 10-17-15
 
 .386
 .model flat,stdcall
@@ -13,17 +15,18 @@ total dword 0
 
 .code
 main proc
-	mov esi, OFFSET dwarray   
-    mov ecx, count
+	mov esi, OFFSET dwarray     ; Set the offset for proper incrementation
+    mov ecx, count              ; Set count to the length, count is not technically needed as the
+                                ; length could be moved directly into the register
     
 	L1:
-        mov eax,[esi]			;move the first val into eax register
-        add esi, 4						;inc to get the next value, and also for the next loop
-        mov ebx,[esi]			;move that value into ebx register
+        mov eax,[esi]			; Move the first val into eax register
+        add esi, 4			    ; Inc to get the next value(4 for dwords), and also for the next loop
+        mov ebx,[esi]			; Move that value into ebx register
         
-        sub ebx, eax					;get the difference of the two values
-        add total, ebx					;add the difference to the running total      
-        Loop L1
+        sub ebx, eax			; Get the difference of the two values
+        add total, ebx			; Add the difference to the running total      
+        Loop L1                 ; At the end, Total = A, or 10
         
 	invoke ExitProcess,0
 main endp

@@ -1,5 +1,7 @@
 ; Exercise 2: Copy a String in Reverse Order
 ; Erik Vanlandingham
+; CIS-361
+; Last Modified 10-17-15
 
 .386
 .model flat,stdcall
@@ -12,22 +14,16 @@ target  BYTE  SIZEOF source DUP('#')
 
 .code
 main PROC
-; Point ESI to the last character in the source string:
-
-; Point EDI to the beginning of the target string:
-; We do not copy the null terminator byte.
-
-	mov  esi,0					; index register set to the end?
-   ;mov, esi OFFSET source		; or is this what we need to do?
-	mov  ecx,SIZEOF source		; loop counter, could I not just use ecx as my index for the string?
+	mov  esi,0					; Index register set to the start of the Source
+	mov  ecx,SIZEOF source		; Loop counter set the the size of the Source, or end of the string
 L1:
-	mov  al,source[ecx]			; get a character from source
-	mov  target[esi],al			; store it in the target
-	inc  esi					; move to the previous character in the array
-	loop L1						; repeat for entire string
+	mov  al,source[ecx]			; Get a character from source, starting at the end
+	mov  target[esi],al			; Store it in the target, starting at the beginning
+	inc  esi					; Move to the next character in the array, inc by 1 btye
+	loop L1						; Repeat for entire string
 
-	mov  al,source[ecx]
-	mov	target[esi],al			; add the last character
+	mov  al,source[ecx]         ; Retrieve the last character
+	mov	target[esi],al			; Add the last character to the Target
 
 	Invoke ExitProcess,0
 main ENDP
